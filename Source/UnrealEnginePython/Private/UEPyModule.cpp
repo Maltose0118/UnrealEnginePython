@@ -764,6 +764,7 @@ static PyMethodDef ue_PyUObject_methods[] = {
 	// StaticMesh
 	{ "get_static_mesh_bounds", (PyCFunction)py_ue_static_mesh_get_bounds, METH_VARARGS, "" },
 #if WITH_EDITOR
+	{ "static_mesh_create", (PyCFunction)py_ue_static_mesh_create, METH_VARARGS, "" },
 	{ "static_mesh_build", (PyCFunction)py_ue_static_mesh_build, METH_VARARGS, "" },
 	{ "static_mesh_create_body_setup", (PyCFunction)py_ue_static_mesh_create_body_setup, METH_VARARGS, "" },
 #endif

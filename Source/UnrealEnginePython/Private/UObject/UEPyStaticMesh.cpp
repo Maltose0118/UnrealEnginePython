@@ -91,8 +91,25 @@ PyObject *py_ue_static_mesh_build(ue_PyUObject *self, PyObject * args)
 	mesh->ImportVersion = EImportStaticMeshVersion::LastVersion;
 #endif
 	mesh->Build();
+	mesh->MarkPackageDirty();
 
 	Py_RETURN_NONE;
+}
+
+PyObject * py_ue_static_mesh_create(ue_PyUObject *self, PyObject *args)
+{
+	/* UStaticMesh objects need to be initialized with geometry and materials before PostLoad can be called.
+	Therefore the usual object creation mechanism will not work, and it will crash.
+	*/
+	ue_py_check(self);
+
+	char* name = nullptr;
+	if (!PyArg_ParseTuple(args, "s", &name))
+		return nullptr;
+	FName f_name(UTF8_TO_TCHAR(name));
+	auto StaticMesh = NewObject<UStaticMesh>(self->ue_object, f_name, RF_Public | RF_Standalone);
+
+	Py_RETURN_UOBJECT(StaticMesh);
 }
 
 PyObject *py_ue_static_mesh_create_body_setup(ue_PyUObject *self, PyObject * args)
